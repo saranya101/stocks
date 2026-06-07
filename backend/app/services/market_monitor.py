@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-
+import pandas as pd
 from app.engines.market_engine import (
     get_market_state
 )
@@ -30,7 +30,23 @@ WATCHLIST = [
 TIMEFRAME = "5m"
 
 CHECK_INTERVAL_SECONDS = 60
+def to_float(value):
+    if value is None:
+        return 0.0
 
+    if isinstance(value, pd.DataFrame):
+        value = value.squeeze()
+
+    if isinstance(value, pd.Series):
+        value = value.dropna()
+        if value.empty:
+            return 0.0
+        value = value.iloc[-1]
+
+    try:
+        return float(value.item())
+    except Exception:
+        return float(value)
 
 def run_market_monitor():
 
@@ -139,3 +155,7 @@ REASONS: {signal["reasons"]}
         time.sleep(
             CHECK_INTERVAL_SECONDS
         )
+
+
+if __name__ == "__main__":
+    run_market_monitor()

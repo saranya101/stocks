@@ -1,8 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.models.paper_trade import (
-    PaperTrade
-)
+from app.models import PaperTrade
 
 
 def create_paper_trade(

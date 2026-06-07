@@ -1,6 +1,6 @@
 from app.database import SessionLocal
 
-from app.engines.performance_engine import (
+from app.services.performance_service import (
     evaluate_signals
 )
 

@@ -44,6 +44,11 @@ def get_company_name(ticker):
 
 
 def fetch_finnhub_news(ticker, days_back=7):
+
+    # Skip Singapore stocks
+    if ticker.upper().endswith(".SI"):
+        return []
+
     today = datetime.utcnow().date()
     start = today - timedelta(days=days_back)
 
@@ -56,25 +61,35 @@ def fetch_finnhub_news(ticker, days_back=7):
         "token": FINNHUB_API_KEY,
     }
 
-    response = requests.get(url, params=params, timeout=15)
+    response = requests.get(
+        url,
+        params=params,
+        timeout=15,
+    )
+
     response.raise_for_status()
 
     articles = []
 
     for item in response.json()[:10]:
-        articles.append({
-            "ticker": ticker.upper(),
-            "company": get_company_name(ticker),
-            "source": item.get("source") or "Finnhub",
-            "source_type": "FINNHUB",
-            "source_quality": SOURCE_QUALITY.get(item.get("source"), 85),
-            "title": item.get("headline") or "",
-            "description": item.get("summary") or "",
-            "url": item.get("url"),
-            "published_at": datetime.utcfromtimestamp(
-                item.get("datetime", 0)
-            ).isoformat()
-        })
+        articles.append(
+            {
+                "ticker": ticker.upper(),
+                "company": get_company_name(ticker),
+                "source": item.get("source") or "Finnhub",
+                "source_type": "FINNHUB",
+                "source_quality": SOURCE_QUALITY.get(
+                    item.get("source"),
+                    85,
+                ),
+                "title": item.get("headline") or "",
+                "description": item.get("summary") or "",
+                "url": item.get("url"),
+                "published_at": datetime.utcfromtimestamp(
+                    item.get("datetime", 0)
+                ).isoformat(),
+            }
+        )
 
     return articles
 

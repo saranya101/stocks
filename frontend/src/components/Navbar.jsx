@@ -1,14 +1,31 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
     <aside className="sidebar">
       <div className="logo">QuantOS</div>
 
-      <Link className="nav-link" to="/">Command Center</Link>
-      <Link className="nav-link" to="/research">Research Lab</Link>
-      <Link className="nav-link" to="/portfolio">Portfolio</Link>
-      <Link className="nav-link" to="/settings">Settings</Link>
+      <NavLink className="nav-link" to="/">
+        Dashboard
+      </NavLink>
+
+      <NavLink className="nav-link" to="/backtesting">
+        Backtesting
+      </NavLink>
+
+      <NavLink to="/approval-queue">Approval Queue</NavLink>
+
+      <NavLink className="nav-link" to="/execution">
+        Execution Centre
+      </NavLink>
+
+      <NavLink className="nav-link" to="/portfolio">
+        Portfolio
+      </NavLink>
+
+      <NavLink className="nav-link" to="/settings">
+        Settings
+      </NavLink>
     </aside>
   );
 }

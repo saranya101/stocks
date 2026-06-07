@@ -21,11 +21,22 @@ PERIOD_MAP = {
 
 
 def safe_float(value):
+    if value is None:
+        return 0.0
+
+    if isinstance(value, pd.DataFrame):
+        value = value.squeeze()
 
     if isinstance(value, pd.Series):
-        value = value.iloc[0]
+        value = value.dropna()
+        if value.empty:
+            return 0.0
+        value = value.iloc[-1]
 
-    return float(value)
+    try:
+        return float(value.item())
+    except Exception:
+        return float(value)
 
 
 def get_live_market_data(

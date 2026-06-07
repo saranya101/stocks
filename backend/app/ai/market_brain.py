@@ -84,8 +84,7 @@ def analyze_stock_intelligence(
         confidence -= win_rate_weight
         reasons.append("Win rate is weak.")
 
-        news_adjustment = (news_score / 50) * news_weight
-
+    news_adjustment = (news_score / 50) * news_weight
     confidence += news_adjustment
 
     if news_score > 15:

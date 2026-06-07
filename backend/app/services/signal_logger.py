@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.models.signal import Signal
+from app.models import Signal
 
 
 def save_signal(
